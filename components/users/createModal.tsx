@@ -59,7 +59,7 @@ export default function CreateModal(
       });
   };
   return (
-    <div className="card flex justify-content-center">
+    <div className="card flex justify-content-center ">
       <Toast ref={toast}></Toast>
 
       <Dialog

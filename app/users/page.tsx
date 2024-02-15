@@ -84,7 +84,7 @@ const UsersPage = () => {
         refresher={usersRefresher}
         setUsersRefresher={setUsersRefresher}
       ></CreateModal>
-      <div className="card px-10">
+      <div className="card px-10 shadow-lg m-5 rounded-lg">
         {isDataLoading && (
           <>
             <ProgressSpinner

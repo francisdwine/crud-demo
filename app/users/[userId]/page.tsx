@@ -1,36 +1,34 @@
-"use client";
+// "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "@/app/types/User";
-const page = ({ params }: { params: { userId: string } }) => {
-  const [user, setUser] = useState<User>();
-  const [isLoading, setisLoading] = useState(false);
-  const [isFound, setIsFound] = useState(true);
+
+
+function getProfileData(id:string) {
+  const res=axios
+    .get(`http://localhost:3001/api/users/${id}`)
+    .then((res) => {
+      if (!res.data.id) {
+        console.log
+        return;
+      }
+      return res.data
+    })
+    .catch((err) => {
+      console.log(err);
+      return
+    });
+    return res;
+    
+}
+const page = async ({ params }: { params: { userId: string } }) => {
+
   const id: number = Number(params.userId);
-  useEffect(() => {
-    setisLoading(true);
-    axios
-      .get(`http://localhost:3001/api/users/${id}`)
-      .then((res) => {
-        if (!res.data.id) {
-          setIsFound(false);
-          return
-        }
-        setIsFound(true);
-        setUser(res.data);
-      })
-      .then(() => {
-        setisLoading(false);
-      });
-  }, []);
-  if ((!user?.id || !user) && isFound === false) {
-    return <div className="flex justify-center">ERROR 404 USER NOT FOUND</div>;
-  }
-  console.log(user);
-  if(isLoading){
-    return("loading pa wait pre")
-  }
+  const user:User|void= await getProfileData(id.toString());
+    
+
   return (
+    
     <div className="container mx-auto my-60">
       <div>
         <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
@@ -44,7 +42,7 @@ const page = ({ params }: { params: { userId: string } }) => {
 
           <div className="mt-16">
             <h1 className="font-bold text-center text-3xl text-gray-900">
-              {user?.firstName + " "} {user?.lastName}
+              {user!.firstName + " "} {user!.lastName}
             </h1>
             <p className="text-center text-sm text-gray-400 font-medium">
               UI Components Factory
@@ -59,7 +57,7 @@ const page = ({ params }: { params: { userId: string } }) => {
               >
                 Connect with{" "}
                 <span className="font-bold">
-                  {"@" + user?.firstName + user?.age}
+                  {"@" + user!.firstName + user!.age}
                 </span>
               </a>
             </div>
@@ -67,7 +65,7 @@ const page = ({ params }: { params: { userId: string } }) => {
               <p className="">Contact me at </p>
               <span>
                 <a href="/#" className="no-underline hover:underline ...">
-                  {" " + user?.email}
+                  {" " + user!.email}
                 </a>
               </span>
             </div>

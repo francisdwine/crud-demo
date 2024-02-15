@@ -41,7 +41,7 @@ export default async function Home() {
   let [userData] = await Promise.all([getUsers()]);
   return (
     <main className={styles.main}>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 gap-4">
         {userData.map((user) => (
           <Card
             title={user.firstName}
