@@ -1,94 +1,61 @@
+"use server";
+import { useState, useEffect } from "react";
+import  Link  from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Button } from "primereact/button";
+import { Sidebar } from "primereact/sidebar";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import axios from "axios";
+import { Card } from "primereact/card";
+import { User } from "./types/User";
+import { Avatar } from "primereact/avatar";
+import { Metadata } from "next";
+const header = (firstLetter: string) => (
+  <div className="flex justify-center">
+    <Avatar
+      label={firstLetter}
+      style={{ height: "100px", width: "100px", fontSize: "1000" }}
+      shape="circle"
+    />
+  </div>
+);
+const footer = (id:string) => (
+  <div>
+    <Link href={"/users/"+id}>
+      <Button style={{backgroundColor:'black', border:'none', }}label="View Profile"></Button>
+    </Link>
+  </div>
+);
 
-export default function Home() {
+async function getUsers(): Promise<User[]> {
+  const res = await fetch("http://localhost:3001/api/users/", {
+    next: { revalidate: 10 },
+  });
+
+  return res.json();
+}
+
+export default async function Home() {
+  let [userData] = await Promise.all([getUsers()]);
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div className="grid grid-cols-4 gap-4">
+        {userData.map((user) => (
+          <Card
+            title={user.firstName}
+            header={header(user.firstName[0])}
+            footer={footer(user.id.toString())}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+            <h1>Details</h1>
+            <p className="m-0">
+              Full Name: {user.firstName + " " + user.lastName}
+            </p>
+            <p className="m-0">Email: {user.email}</p>
+            <p className="m-0">Age: {user.age}</p>
+          </Card>
+        ))}
       </div>
     </main>
   );
