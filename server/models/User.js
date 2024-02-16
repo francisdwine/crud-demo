@@ -31,6 +31,10 @@ module.exports=(sequelize,DataTypes)=>{
                 notEmpty:true
             }
         },
+        photo:{
+            type:DataTypes.STRING,
+            allowNull:true
+        }
               
     })
 

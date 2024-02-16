@@ -3,32 +3,41 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "@/app/types/User";
 
-
-function getProfileData(id:string) {
-  const res=axios
+function getProfileData(id: string) {
+  const res = axios
     .get(`http://localhost:3001/api/users/${id}`)
     .then((res) => {
       if (!res.data.id) {
-        console.log
+        console.log;
         return;
       }
-      return res.data
+      return res.data;
     })
     .catch((err) => {
       console.log(err);
-      return
+      return;
     });
-    return res;
-    
+  return res;
 }
 const page = async ({ params }: { params: { userId: string } }) => {
-
   const id: number = Number(params.userId);
-  const user:User|void= await getProfileData(id.toString());
-    
+  const user: User | void = await getProfileData(id.toString());
+
+  if (!user?.id) {
+    return (
+      <div>
+        <div className="min-h-screen flex flex-grow items-center justify-center bg-gray-50">
+  <div className="rounded-lg bg-white p-8 text-center shadow-xl">
+    <h1 className="mb-4 text-4xl font-bold">404</h1>
+    <p className="text-gray-600">Oops! The page you are looking for could not be found.</p>
+    <a href="/" className="mt-4 inline-block rounded bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"> Go back to Home </a>
+  </div>
+</div>
+      </div>
+    );
+  }
 
   return (
-    
     <div className="container mx-auto my-60">
       <div>
         <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">

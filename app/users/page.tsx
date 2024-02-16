@@ -33,19 +33,29 @@ const UsersPage = () => {
       email: "francisbendulo@gmail.com",
     },
   ];
+    
+    
   useEffect(() => {
     setIsDataLoading(true);
-    axios
+    var delayInMilliseconds = 5000; //1 second
+
+    setTimeout(function () {
+      //your code to be executed after 1 second
+    }, delayInMilliseconds);
+    const res=axios
       .get("http://localhost:3001/api/users/")
       .then((res) => {
+        if(!res.data.error){
         setUsers(res.data);
+        }
         setIsDataLoading(false);
       })
       .catch((err) => {
         console.log("error because:" + err);
       });
+    
   }, [usersRefresher]);
- 
+
   const deleteHandler = (e: any, id: number): void => {
     e.preventDefault();
     axios

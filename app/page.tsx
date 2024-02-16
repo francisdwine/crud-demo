@@ -13,12 +13,15 @@ import { User } from "./types/User";
 import { Avatar } from "primereact/avatar";
 import { Metadata } from "next";
 const header = (firstLetter: string) => (
-  <div className="flex justify-center">
+  <div className="flex justify-center mt-5 ">
+    <div className="bg-white relative shadow-lg rounded-full w-29 mx-auto justify-center p-1">
     <Avatar
       label={firstLetter}
       style={{ height: "100px", width: "100px", fontSize: "1000" }}
       shape="circle"
     />
+    </div>
+    
   </div>
 );
 const footer = (id:string) => (
