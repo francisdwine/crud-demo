@@ -24,28 +24,38 @@ const UsersPage = () => {
   const paginatorLeft = <Button type="button" icon={PrimeIcons.PLUS} text />;
 
   const paginatorRight = <Button type="button" icon="pi pi-download" text />;
-  const DUMMY_DATA: User[] = [
-    {
-      id: 2,
-      firstName: "francis",
-      lastName: "dwine",
-      age: 2,
-      email: "francisbendulo@gmail.com",
-    },
-  ];
+  // const DUMMY_DATA: User[] = [
+  //   {
+  //     id: 2,
+  //     firstName: "francis",
+  //     lastName: "dwine",
+  //     age: 2,
+  //     email: "francisbendulo@gmail.com",
+  //   },
+  // ];
+    
+    
   useEffect(() => {
     setIsDataLoading(true);
-    axios
+    var delayInMilliseconds = 5000; //1 second
+
+    setTimeout(function () {
+      //your code to be executed after 1 second
+    }, delayInMilliseconds);
+    const res=axios
       .get("http://localhost:3001/api/users/")
       .then((res) => {
+        if(!res.data.error){
         setUsers(res.data);
+        }
         setIsDataLoading(false);
       })
       .catch((err) => {
         console.log("error because:" + err);
       });
+    
   }, [usersRefresher]);
- 
+
   const deleteHandler = (e: any, id: number): void => {
     e.preventDefault();
     axios
