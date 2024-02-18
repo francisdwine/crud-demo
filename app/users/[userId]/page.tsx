@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { User } from "@/app/types/User";
-
+import Image from "next/image";
 function getProfileData(id: string) {
   const res = axios
     .get(`http://localhost:3001/api/users/${id}`)
@@ -42,11 +42,19 @@ const page = async ({ params }: { params: { userId: string } }) => {
       <div>
         <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
           <div className="flex justify-center">
-            <img
-              src="https://avatars0.githubusercontent.com/u/35900628?v=4"
+            {/* <img
+              src={`/images/`+user.photo}
               alt=""
               className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
-            />
+            /> */}
+            <div 
+            className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110">
+              <Image
+                src={`/images/${user.photo}`}
+                alt="profile picture"
+                fill
+              ></Image>
+            </div>
           </div>
 
           <div className="mt-16">

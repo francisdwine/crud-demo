@@ -44,7 +44,7 @@ export default function CreateModal(
     e.preventDefault();
     var formData = new FormData();
     formData.append("firstName", enteredFirstName);
-    formData.append("LastName", enteredLastName);
+    formData.append("lastName", enteredLastName);
     formData.append("email", enteredEmail);
     formData.append("age", enteredAge);
 

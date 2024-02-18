@@ -4,4 +4,5 @@ export interface User {
     lastName: string;
     age: number;
     email: string;
+    photo:string;
   }
