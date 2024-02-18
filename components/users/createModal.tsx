@@ -4,26 +4,19 @@ import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
 import axios from "axios";
-import { FileUpload } from "primereact/fileupload";
 export default function CreateModal(
   props: PropsWithChildren<{
-    visible: boolean;
-    setVisible: (value: boolean) => void;
-    setUsersRefresher: (value: boolean) => void;
-    refresher: boolean;
+    visible: boolean,
+    setVisible: (value: boolean) => void,
+    setUsersRefresher: (value: boolean) => void,
+    refresher:boolean
   }>
 ) {
   const [enteredFirstName, setEnteredFirstName] = useState<string>("");
   const [enteredLastName, setEnteredLastName] = useState<string>("");
   const [enteredEmail, setEnteredEmail] = useState<string>("");
   const [enteredAge, setEnteredAge] = useState<any>("");
-  const uploadFile = useRef<File>();
   const toast = useRef<Toast>(null);
-  const handleUpload = (e: any) => {
-    const file = e.files[0];
-
-    uploadFile.current = file;
-  };
   const showSuccess = () => {
     toast.current?.show({
       severity: "success",
@@ -40,32 +33,25 @@ export default function CreateModal(
       life: 3000,
     });
   };
-  const userCreateHandler = (e: any) => {
-    e.preventDefault();
-    var formData = new FormData();
-    formData.append("firstName", enteredFirstName);
-    formData.append("lastName", enteredLastName);
-    formData.append("email", enteredEmail);
-    formData.append("age", enteredAge);
-
-    formData.append("file", uploadFile.current);
-    console.log(uploadFile.current);
+  const userCreateHandler = (e:any) => {
+    e.preventDefault()
     axios
-      .post("http://localhost:3001/api/users/", formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
+      .post("http://localhost:3001/api/users/", {
+        firstName: enteredFirstName,
+        lastName: enteredLastName,
+        email: enteredEmail,
+        age: Number(enteredAge),
       })
-      .then((res) => {
-        if (res.data.error) {
+      .then( (res)=> {
+        if(res.data.error){
           showError(res.data.message);
-          return;
+          return
         }
-
+        
         showSuccess();
-
-        props.setUsersRefresher(!props.refresher);
-
+       
+        props.setUsersRefresher(!props.refresher)
+        
         props.setVisible(false);
       })
       .catch(function (error) {
@@ -109,31 +95,12 @@ export default function CreateModal(
             <InputText
               type="number"
               value={enteredAge}
-              max={100}
-              min={0}
               onChange={(e) => setEnteredAge(e.target.value)}
             />
           </div>
-          <div>
-            <FileUpload
-              onSelect={(e) => {
-                handleUpload(e);
-              }}
-              // onUpload={}
-              name="demo[]"
-              url={"/api/upload"}
-              // multiple
-              accept="image/*"
-              maxFileSize={1000000}
-              emptyTemplate={
-                <p className="m-0">Drag and drop files to here to upload.</p>
-              }
-            />
-          </div>
-
           <div className="flex justify-end align pt-5">
             <Button
-              onClick={(e) => userCreateHandler(e)}
+              onClick={(e)=>userCreateHandler(e)}
               label="Create"
               color="#9F2B68"
             ></Button>

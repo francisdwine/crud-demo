@@ -12,16 +12,13 @@ import { Card } from "primereact/card";
 import { User } from "./types/User";
 import { Avatar } from "primereact/avatar";
 import { Metadata } from "next";
-const header = (photo: string) => (
-  <div className="flex justify-center mt-5">
-    <div className="bg-white relative shadow-lg rounded-full w-30 h-30 mx-auto justify-center pt-1.5 px-1.5">
+const header = (firstLetter: string) => (
+  <div className="flex justify-center">
     <Avatar
-      image={`/images/${photo}`}
+      label={firstLetter}
       style={{ height: "100px", width: "100px", fontSize: "1000" }}
       shape="circle"
     />
-    </div>
-    
   </div>
 );
 const footer = (id:string) => (
@@ -48,7 +45,7 @@ export default async function Home() {
         {userData.map((user) => (
           <Card
             title={user.firstName}
-            header={header(user.photo)}
+            header={header(user.firstName[0])}
             footer={footer(user.id.toString())}
           >
             <h1>Details</h1>

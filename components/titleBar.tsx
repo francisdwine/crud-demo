@@ -13,7 +13,7 @@ export default function TitleBar() {
         </Link>
 
         <div>
-          <h1 className=" mb-0 lg:text-4xl sm:text-3xl xs:text-3xl font-extrabold leading-none tracking-tight text-white md:text-4xl  dark:text-white">
+          <h1 className=" lg:text-4xl sm:text-3xl xs:text-3xl font-extrabold leading-none tracking-tight text-white md:text-4xl  dark:text-white">
             User Management App
           </h1>
         </div>
