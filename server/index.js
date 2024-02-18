@@ -1,5 +1,6 @@
 const express = require("express");
 const { User } = require("./models");
+const fs= require('fs');
 const cors= require('cors')
 const app = express();
 const port = 3001;
@@ -7,6 +8,7 @@ app.base = "/api";
 app.use(express.json());
 app.use(cors())
 const db = require("./models");
+
 
 app.get("/api", (req, res) => {
   res.send("Hello World!");
